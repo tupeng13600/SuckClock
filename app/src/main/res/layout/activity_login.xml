@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tupeng.suckclock.activity.LoginActivity">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="368dp"
+        android:padding="40dp"
+        android:layout_height="wrap_content"
+        tools:layout_editor_absoluteX="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <EditText
+            android:theme="@style/LoginText"
+            android:id="@+id/et_phone"
+            android:maxLines="1"
+            android:inputType="phone"
+            android:maxLength="11"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="手机号码"
+            android:drawablePadding="15dp"/>
+
+        <EditText
+            android:id="@+id/et_verify"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="验证码"/>
+
+        <ImageButton
+            android:id="@+id/ib_login"
+            android:layout_width="match_parent"
+            android:layout_height="100dp"
+            android:pointerIcon="hand"
+            android:padding="0dp"
+            android:background="#00000000"
+            android:scaleType="centerInside"
+            android:src="@drawable/login"
+            android:onClick="login"/>
+
+    </LinearLayout>
+
+
+
+</android.support.constraint.ConstraintLayout>

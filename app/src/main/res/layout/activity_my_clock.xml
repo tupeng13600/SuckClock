@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.tupeng.suckclock.activity.MyClockActivity">
+
+    <RelativeLayout
+        android:id="@+id/ly_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="48dp">
+
+        <TextView
+            android:id="@+id/txt_topbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_centerInParent="true"
+            android:gravity="center"
+            android:text="乐蜂网"
+            android:textSize="18sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:background="#000000"
+            android:layout_alignParentBottom="true" />
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:id="@+id/main_content"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1" />
+
+    <RadioGroup
+        android:id="@+id/rg_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/rb_channel"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:background="#00000000"
+            android:button="@null"
+
+            android:checked="true"
+            android:drawableTop="@drawable/selector"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="1dp"
+            android:text="特卖"
+            android:textColor="@drawable/tab_dr" />
+
+
+        <RadioButton
+            android:id="@+id/rb_message"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:background="#00000000"
+            android:button="@null"
+
+            android:drawableTop="@drawable/selector"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="1dp"
+            android:text="商城"
+            android:textColor="@drawable/tab_dr" />
+
+
+        <RadioButton
+            android:id="@+id/rb_better"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:background="#00000000"
+            android:button="@null"
+
+            android:drawableTop="@drawable/selector"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="1dp"
+            android:text="购物车"
+            android:textColor="@drawable/tab_dr"  />
+
+
+        <RadioButton
+            android:id="@+id/rb_setting"
+            android:layout_height="wrap_content"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_gravity="bottom"
+            android:background="#00000000"
+            android:button="@null"
+
+            android:drawableTop="@drawable/selector"
+            android:gravity="center_horizontal|bottom"
+            android:paddingTop="1dp"
+            android:text="我的蜂巢"
+            android:textColor="@drawable/tab_dr"  />
+
+
+
+    </RadioGroup>
+
+    <View
+        android:id="@+id/div_tab_bar"
+        android:layout_width="match_parent"
+        android:layout_height="2px"
+        android:layout_above="@id/rg_tab_bar"
+        android:background="@color/colorPrimary" />
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vpager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_above="@id/div_tab_bar"
+        android:layout_below="@id/ly_top_bar" />
+
+
+
+
+</android.support.constraint.ConstraintLayout>
