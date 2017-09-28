@@ -1,15 +1,9 @@
 package com.tupeng.suckclock.util;
 
-import android.util.Log;
-
 import com.google.gson.Gson;
-import com.tupeng.suckclock.constant.Constant;
+import com.tupeng.suckclock.model.res.base.Response;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
@@ -19,91 +13,71 @@ import java.net.URL;
  */
 public abstract class HttpUtil {
 
-    private static String logTag = Constant.tag(HttpUtil.class);
-
-    private static final Integer SUCCESS_CODE = 200;
-
     /**
-     * 暂时使用的假的POST
-     * @param object
+     * GET 请求
+     *
+     * @param host
+     * @param path
      * @param <T>
      * @return
      */
-    public static <T> T post(Object object, Class<T> res) {
+    public static <T> Response<T> get(String host, String path) {
         try {
-            return res.newInstance();
+            URL url = new URL(host + path);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            initHeader(connection, "GET");
+            connection.connect();
+            return getResponse(connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static <T> T post(String path, String host, Class<T> responseClass, Object... jsonArgs) {
-        if ("".equals(path) || "".equals(host)) {
-            return null;
-        }
+    /**
+     * post 请求
+     *
+     * @param host
+     * @param path
+     * @param requestParam
+     * @param <T>
+     * @return
+     */
+    public static <T> Response<T> post(String host, String path, Object requestParam) {
         try {
             URL url = new URL(host + path);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
             initHeader(connection, "POST");
-            connection.connect();
-            if (null != jsonArgs && jsonArgs.length > 0) {
-                initJsonArgs(connection, jsonArgs[0]);
-            }
-            Integer responseCode = connection.getResponseCode();
-            if (SUCCESS_CODE.equals(responseCode)) {
-                InputStream inputStream = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                String strRead;
-                StringBuilder builder = new StringBuilder();
-                while ((strRead = reader.readLine()) != null) {
-                    builder.append(strRead);
-                }
-                reader.close();
-                Log.i(logTag, "请求得到的数据为：" + builder.toString());
+            if (null != requestParam) {
+                connection.setDoOutput(true);
+                initJsonArgs(connection, requestParam);
             } else {
-                Log.e(logTag, "请求失败，返回代码：" + responseCode);
+                connection.connect();
             }
+            return getResponse(connection.getResponseCode() == 200 ? connection.getInputStream() : connection.getErrorStream());
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    public static <T> T get(String path, String host, Class<T> responseClass) {
-        if ("".equals(path) || "".equals(host)) {
-            return null;
-        }
-        try {
-            URL url = new URL(host + path);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            initHeader(connection, "POST");
-            connection.connect();
-            Integer responseCode = connection.getResponseCode();
-            if (SUCCESS_CODE.equals(responseCode)) {
-                InputStream inputStream = connection.getInputStream();
-                BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
-                String strRead;
-                StringBuilder builder = new StringBuilder();
-                while ((strRead = reader.readLine()) != null) {
-                    builder.append(strRead);
-                }
-                reader.close();
-                Log.i(logTag, "请求得到的数据为：" + builder.toString());
-            } else {
-                Log.e(logTag, "请求失败，返回代码：" + responseCode);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return null;
+    public static void main(String[] args) {
+        Response response = post("http://localhost:8412", "/auth/login", null);
+        System.out.print(response);
     }
 
-    public static <T> T put() {
-        return null;
-    }
-
-    public static <T> T delete() {
+    private static <T> Response<T> getResponse(InputStream inputStream) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream, "UTF-8"));
+        StringBuilder builder = new StringBuilder();
+        String strRead;
+        while ((strRead = reader.readLine()) != null) {
+            builder.append(strRead);
+        }
+        reader.close();
+        inputStream.close();
+        if (StringUtils.isNotEmpty(builder.toString())) {
+            return new Gson().fromJson(builder.toString(), Response.class);
+        }
         return null;
     }
 
@@ -114,7 +88,6 @@ public abstract class HttpUtil {
         connection.setRequestProperty("Accept-Charset", "UTF-8");
         connection.setRequestProperty("Accept-Encoding", "gzip, deflate");
         connection.setRequestProperty("Connection", "Keep-Alive");
-        connection.setRequestProperty("Content-Length", "23330");
         connection.setRequestProperty("Content-Type", "application/json;charset=utf-8");
     }
 

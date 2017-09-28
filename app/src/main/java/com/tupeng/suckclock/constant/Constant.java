@@ -14,6 +14,8 @@ public abstract class Constant {
 
     public static final int NOT_INIT = 0;  //未初始化
 
+    public static final int LOGIN_FAIL = -1;
+
     public static final int IMG_SELECT_CODE = 1;
 
 

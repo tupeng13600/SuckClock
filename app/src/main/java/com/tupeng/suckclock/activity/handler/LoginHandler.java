@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Message;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.tupeng.suckclock.activity.InfoInitActivity;
 import com.tupeng.suckclock.activity.MyClockActivity;
@@ -33,7 +34,7 @@ public class LoginHandler extends BaseHandler {
                 toInit();
                 break;
             default:
-                Log.w(logTag, "匹配版本参数错误");
+                Toast.makeText(activity, message.obj.toString(), Toast.LENGTH_LONG).show();
         }
     }
 

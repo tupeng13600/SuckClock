@@ -6,18 +6,20 @@ package com.tupeng.suckclock.model.res.base;
 
 public class Response<T> {
 
-    private Boolean success = true;
+    private boolean status;
 
-    private String description = "请求成功";
+    private String description;
 
     private T data;
 
-    public Boolean getSuccess() {
-        return success;
+    private String errorMessage;
+
+    public boolean getStatus() {
+        return status;
     }
 
-    public void setSuccess(Boolean success) {
-        this.success = success;
+    public void setStatus(boolean status) {
+        this.status = status;
     }
 
     public String getDescription() {
@@ -34,5 +36,13 @@ public class Response<T> {
 
     public void setData(T data) {
         this.data = data;
+    }
+
+    public String getErrorMessage() {
+        return errorMessage;
+    }
+
+    public void setErrorMessage(String errorMessage) {
+        this.errorMessage = errorMessage;
     }
 }
